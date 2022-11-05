@@ -1,0 +1,1 @@
+add_library(min_max_area try_minimizing_area.cpp try_maximizing_area.cpp)

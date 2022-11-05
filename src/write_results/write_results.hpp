@@ -1,0 +1,1 @@
+void write_results_to_output_file(const char* output_file, const std::vector<Point_2>& points, const Polygon_2& polygon_2, const double& construction_time, const polygonization_algorithm& algorithm, const visible_edge_selection& edge_select, const Sort_by_coordinate* const initialization);
