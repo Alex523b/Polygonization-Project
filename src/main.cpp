@@ -29,9 +29,7 @@ int main(int argc, char** argv){
     double construction_time = (double)(end - begin) / CLOCKS_PER_SEC;
     
     write_results_to_output_file(output_file, points, polygon_2, construction_time, algorithm, edge_select, &initialization);
-    
-    cout << "debugging" << endl;
-    cout << "polygon size: " << polygon_2.size() << endl;
-    cout << "check if polygon is simple: " << polygon_2.is_simple() << endl;
+    delete input_file;
+    delete output_file;
     return 0;
 }
