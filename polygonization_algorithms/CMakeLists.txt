@@ -1,0 +1,2 @@
+add_library(polygonization_algorithms polygonization_incremental.cpp polygonization_convex_hull.cpp)
+target_link_libraries(polygonization_algorithms PUBLIC edge_selection)
