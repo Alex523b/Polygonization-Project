@@ -8,15 +8,14 @@ void parse_command_line_arguments(int argc, char **argv, char **input_file, char
         char *str = argv[i];
         char *value;
         if(!strcmp(str, "-i")){
-            *input_file = new char[strlen(argv[i+1]) + 1];
             value = argv[i+1];
+            *input_file = new char[strlen(value) + 1];
             strcpy(*input_file, value);
 
         }else if(!strcmp(str, "-o")){
-            *output_file = new char[strlen(str) + 1];
             value = argv[i+1];
+            *output_file = new char[strlen(value) + 1];
             strcpy(*output_file, value);
-
         }else if(!strcmp(str, "-algorithm")){
             value = argv[i+1];
             if(!strcmp(value, "incremental")){
