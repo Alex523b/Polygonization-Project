@@ -3,20 +3,26 @@
 #include "../edge_selection/edge_selection.hpp"
 #include "../min_max_area/try_minimizing_area.hpp"
 #include "../min_max_area/try_maximizing_area.hpp"
-Replaceable_edge find_closest_inside_point_to_edge(std::vector<Point_2>& inside_points, const Segment_2& edge){
+typedef K::Line_2 Line_2;
+Replaceable_edge find_closest_visible_point_to_edge(std::vector<Point_2>& inside_points, const Segment_2& edge, const Polygon_2& polygon_2, const int& counter_edge){
     Replaceable_edge replaceable_edge;
     replaceable_edge.edge = edge;
     replaceable_edge.potential_polygon_point = NULL;
 
+    double min_distance, distance_of_point_from_edge;
+    Line_2 edge_as_line (edge);
     for(Point_2& point: inside_points){
-        if(replaceable_edge.potential_polygon_point == NULL){
+        distance_of_point_from_edge = fabs(edge_as_line.a()*point.x() + edge_as_line.b()*point.y() + edge_as_line.c())/sqrt(edge_as_line.a()*edge_as_line.a() + edge_as_line.b()*edge_as_line.b());
+        if(replaceable_edge.potential_polygon_point == NULL || distance_of_point_from_edge < min_distance){
             replaceable_edge.potential_polygon_point = &point;
+            min_distance = distance_of_point_from_edge;
         }
-        
-        CGAL::Comparison_result comparison_result = CGAL::compare_signed_distance_to_line(edge.source(), edge.target(), point, *replaceable_edge.potential_polygon_point);
-        if(comparison_result == CGAL::SMALLER){
-            replaceable_edge.potential_polygon_point = &point;
-        }
+    }
+    Polygon_2 tmp_polygon_2 = polygon_2;
+    tmp_polygon_2.insert(tmp_polygon_2.begin() + counter_edge, *replaceable_edge.potential_polygon_point);
+    if(!tmp_polygon_2.is_simple()){
+        // If-f the polygon remains simple after adding a point, then this point is considered visible from the edge
+        replaceable_edge.potential_polygon_point = NULL;
     }
     return replaceable_edge;
 }
@@ -42,15 +48,12 @@ Polygon_2 polygonization_convex_hull(std::vector<Point_2>& points, const visible
 
         counter_edge = 0;
         for(const Segment_2& edge: polygon_2.edges()){
-            potential_replaceable_edge = find_closest_inside_point_to_edge(inside_points, edge);
-            potential_replaceable_edge.polygon_edge_index = ++counter_edge;
+            potential_replaceable_edge = find_closest_visible_point_to_edge(inside_points, edge, polygon_2, ++counter_edge);
+            potential_replaceable_edge.polygon_edge_index = counter_edge;
             
-            // If-f the polygon remains simple after adding a point, then this point is considered visible from the edge
-            Polygon_2 tmp_polygon_2 = polygon_2;
-            tmp_polygon_2.insert(tmp_polygon_2.begin() + potential_replaceable_edge.polygon_edge_index, *potential_replaceable_edge.potential_polygon_point); 
-            if(tmp_polygon_2.is_simple()){
-                try_minimizing_area(min_area_edge_index, min_area, replaceable_edges_of_polygon.size(), tmp_polygon_2);
-                try_maximizing_area(max_area_edge_index, max_area, replaceable_edges_of_polygon.size(), tmp_polygon_2);
+            if(potential_replaceable_edge.potential_polygon_point != NULL){
+                try_minimizing_area(min_area_edge_index, min_area, replaceable_edges_of_polygon.size(), polygon_2);
+                try_maximizing_area(max_area_edge_index, max_area, replaceable_edges_of_polygon.size(), polygon_2);
                 replaceable_edges_of_polygon.push_back(potential_replaceable_edge);
             }
         }

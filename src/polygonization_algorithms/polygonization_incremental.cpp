@@ -41,7 +41,7 @@ void sort_point_set(std::vector<Point_2>& points, const Sort_by_coordinate& sort
     }
 }
 
-void resolve_collinear_initial_points(Polygon_2 &polygon_2, std::vector<Point_2>& polygon_2_points, std::vector<Point_2>& points){
+void resolve_collinear_initial_points(Polygon_2& polygon_2, std::vector<Point_2>& polygon_2_points, std::vector<Point_2>& points){
     int attempted_sort = 0;
     Sort_by_coordinate new_sort_by_coordinate[] = {x_descending, x_ascending, y_descending, y_ascending};
     while(CGAL::collinear(points.at(0), points.at(1), points.at(2)) && attempted_sort < 4){ // Try all sorting orders to eliminate the collinear property of the initial polygon points
