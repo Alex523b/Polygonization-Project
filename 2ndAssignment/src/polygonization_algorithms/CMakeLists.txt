@@ -1,0 +1,1 @@
+add_library(polygonization_algorithms polygonization_incremental.cpp polygonization_convex_hull.cpp)

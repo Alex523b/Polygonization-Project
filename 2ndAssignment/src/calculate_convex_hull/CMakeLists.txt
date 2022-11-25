@@ -1,0 +1,1 @@
+add_library(calculate_convex_hull calculate_convex_hull.cpp)

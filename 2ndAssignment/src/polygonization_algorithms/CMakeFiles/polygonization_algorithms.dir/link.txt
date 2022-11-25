@@ -1,0 +1,2 @@
+/usr/bin/X11/ar qc libpolygonization_algorithms.a  CMakeFiles/polygonization_algorithms.dir/polygonization_incremental.cpp.o CMakeFiles/polygonization_algorithms.dir/polygonization_convex_hull.cpp.o
+/usr/bin/X11/ranlib libpolygonization_algorithms.a

@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/calculate_convex_hull/calculate_convex_hull.hpp
+CGAL/Exact_predicates_inexact_constructions_kernel.h
+-
+CGAL/Polygon_2.h
+-
+
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/polygonization_algorithms/polygonization_convex_hull.cpp
+../calculate_convex_hull/calculate_convex_hull.hpp
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/calculate_convex_hull/calculate_convex_hull.hpp
+../structs/Replaceable_edge.hpp
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/structs/Replaceable_edge.hpp
+
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/structs/Replaceable_edge.hpp
+

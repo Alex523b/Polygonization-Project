@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/main.cpp
+parsing_input/parsing_input.hpp
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/parsing_input/parsing_input.hpp
+write_results/write_results.hpp
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/write_results/write_results.hpp
+polygonization_algorithms/polygonization_convex_hull.hpp
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/polygonization_algorithms/polygonization_convex_hull.hpp
+polygonization_algorithms/polygonization_incremental.hpp
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/polygonization_algorithms/polygonization_incremental.hpp
+
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/parsing_input/parsing_input.hpp
+CGAL/Exact_predicates_inexact_constructions_kernel.h
+-
+CGAL/Polygon_2.h
+-
+
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/polygonization_algorithms/polygonization_convex_hull.hpp
+
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/polygonization_algorithms/polygonization_incremental.hpp
+CGAL/Polygon_2.h
+-
+
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/write_results/write_results.hpp
+

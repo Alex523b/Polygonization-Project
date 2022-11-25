@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/calculate_convex_hull/calculate_convex_hull.hpp
+CGAL/Exact_predicates_inexact_constructions_kernel.h
+-
+CGAL/Polygon_2.h
+-
+
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/parsing_input/parsing_input.hpp
+CGAL/Exact_predicates_inexact_constructions_kernel.h
+-
+CGAL/Polygon_2.h
+-
+
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/write_results/write_results.cpp
+../calculate_convex_hull/calculate_convex_hull.hpp
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/calculate_convex_hull/calculate_convex_hull.hpp
+../parsing_input/parsing_input.hpp
+/home/users/sdi1900136/Polygonization-Project/2ndAssignment/src/parsing_input/parsing_input.hpp
+
