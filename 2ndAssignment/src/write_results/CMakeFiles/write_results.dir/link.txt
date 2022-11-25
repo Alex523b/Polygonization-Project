@@ -1,2 +1,0 @@
-/usr/bin/X11/ar qc libwrite_results.a  CMakeFiles/write_results.dir/write_results.cpp.o
-/usr/bin/X11/ranlib libwrite_results.a

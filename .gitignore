@@ -1,0 +1,7 @@
+Makefile
+*.a
+CMakeCache.txt
+optimal_polygon
+to_polygon
+*.cmake
+CMakeFiles/

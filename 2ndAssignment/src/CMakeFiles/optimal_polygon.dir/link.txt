@@ -1,1 +1,0 @@
-/usr/bin/X11/c++     CMakeFiles/optimal_polygon.dir/main.cpp.o  -o optimal_polygon  parsing_input/libparsing_input.a polygonization_algorithms/libpolygonization_algorithms.a calculate_convex_hull/libcalculate_convex_hull.a write_results/libwrite_results.a /usr/lib/x86_64-linux-gnu/libmpfr.so /usr/lib/x86_64-linux-gnu/libgmp.so 

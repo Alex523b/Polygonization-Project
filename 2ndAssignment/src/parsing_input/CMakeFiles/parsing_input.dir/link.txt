@@ -1,2 +1,0 @@
-/usr/bin/X11/ar qc libparsing_input.a  CMakeFiles/parsing_input.dir/parsing_input.cpp.o
-/usr/bin/X11/ranlib libparsing_input.a

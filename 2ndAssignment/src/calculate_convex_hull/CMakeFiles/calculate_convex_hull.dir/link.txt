@@ -1,2 +1,0 @@
-/usr/bin/X11/ar qc libcalculate_convex_hull.a  CMakeFiles/calculate_convex_hull.dir/calculate_convex_hull.cpp.o
-/usr/bin/X11/ranlib libcalculate_convex_hull.a
