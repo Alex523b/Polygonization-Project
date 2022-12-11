@@ -104,8 +104,7 @@ Polygon_2 optimization_local_search(const int& L, const double& threshold, const
             area_difference = fabs(optimized_polygon_2.area() - optimized_polygon_2_area);
         }
 
-        std::cout << "area_difference: " << area_difference  << std::endl;
-
+        std::cout << "area difference = " << area_difference << std::endl;
     }while(area_difference >= threshold);
 
     return optimized_polygon_2;
