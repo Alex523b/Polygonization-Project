@@ -2,8 +2,8 @@
 
 typedef std::string string;
 typedef std::ifstream ifstream;
-void parse_command_line_arguments(int argc, char **argv, char **input_file, char **output_file, polygonization_algorithm& greedy_alg, optimization_algorithm& algorithm, double& threshold, annealing_method& annealing, int& L, extremum_method& extremum_method){
-    for(int i = 1; i < argc; i+=2){
+void parse_command_line_arguments(int argc, char **argv, char **input_file, char **output_file, polygonization_algorithm& greedy_alg, optimization_algorithm& algorithm, double& threshold, annealing_method& annealing, int& L, extremum_method& extremum_method, bool& apply_metropolis_criterion){
+    for(int i = 1; i < argc; i++){
         char *str = argv[i];
         char *value = argv[i+1];
         if(!strcmp(str, "-i")){
@@ -40,11 +40,16 @@ void parse_command_line_arguments(int argc, char **argv, char **input_file, char
 
         }else if(!strcmp(str, "-greedy_algorithm")){
             value = argv[i+1];
-            greedy_alg = !strcmp(str, "convex_hull") ? convex_hull : incremental;
+            greedy_alg = !strcmp(value, "convex_hull") ? convex_hull : incremental;
 
-        }
-        else{
-            extremum_method = !strcmp(str,"-min") ? min : max;
+        }else if(!strcmp(str, "-min")){
+            extremum_method = min;
+        }else if(!strcmp(str, "-max")){
+            extremum_method = max;
+
+        }else if(!strcmp(str, "-apply_metropolis_criterion")){
+            value = argv[i+1];
+            apply_metropolis_criterion = !strcmp(value, "true") ? true : false;
         }
     }
 }

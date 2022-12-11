@@ -1,3 +1,13 @@
+#include "local_search.hpp"
+
+using std::vector;
+typedef K::Segment_2 Segment_2;
+
+struct Optimal_change_info{
+    double new_polygon_2_area;
+    Polygon_2 new_polygon_2;
+};
+
 vector<Point_2> add_vertices_to_path(std::size_t i, int current_path_length, const Polygon_2& optimized_polygon_2, const Segment_2& edge){
     vector<Point_2> path;
     for(std::size_t j = i; j < optimized_polygon_2.size() && path.size() < current_path_length; j++){
@@ -94,7 +104,7 @@ Polygon_2 optimization_local_search(const int& L, const double& threshold, const
             area_difference = fabs(optimized_polygon_2.area() - optimized_polygon_2_area);
         }
 
-        cout << "area_difference: " << area_difference  << endl;
+        std::cout << "area_difference: " << area_difference  << std::endl;
 
     }while(area_difference >= threshold);
 

@@ -13,4 +13,4 @@ enum extremum_method {min, max};
 enum optimization_algorithm {local_search, simulated_annealing};
 #endif
 void parse_input_file(const char *file_name, std::vector<Point_2>& points);
-void parse_command_line_arguments(int argc, char **argv, char **input_file, char **output_file, polygonization_algorithm& greedy_alg, optimization_algorithm& algorithm, double& threshold, annealing_method& annealing, int& L, extremum_method& extremum_method);
+void parse_command_line_arguments(int argc, char **argv, char **input_file, char **output_file, polygonization_algorithm& greedy_alg, optimization_algorithm& algorithm, double& threshold, annealing_method& annealing, int& L, extremum_method& extremum_method, bool& apply_metropolis_criterion);

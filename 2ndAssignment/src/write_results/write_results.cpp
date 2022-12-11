@@ -30,9 +30,10 @@ void write_results_to_output_file(const char* output_file, const std::vector<Poi
     }else{
         output << "_max";
     }
+    output << endl;
     double convex_hull_area = calculate_convex_hull(points).area(), opt_area = opt_polygon_2.area(), area_initial = initial_polygon_2.area();
-    output << "area_initial: " << area_initial << endl;
-    output << "area: " << opt_area << endl;
+    output << "area_initial: " << long(area_initial) << endl;
+    output << "area: " << long(opt_area) << endl;
     output << "ratio_initial: " << area_initial / convex_hull_area << endl;
     output << "ratio: " << opt_area / convex_hull_area << endl;
     output << "construction time: " << long(construction_time) << " seconds" << endl;

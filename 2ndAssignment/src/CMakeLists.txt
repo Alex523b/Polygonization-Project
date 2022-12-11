@@ -33,7 +33,8 @@ add_subdirectory(parsing_input)
 add_subdirectory(polygonization_algorithms)
 add_subdirectory(calculate_convex_hull)
 add_subdirectory(write_results)
-list(APPEND EXTRA_LIBS parsing_input polygonization_algorithms calculate_convex_hull write_results)
+add_subdirectory(polygon_optimization_algorithms)
+list(APPEND EXTRA_LIBS parsing_input polygonization_algorithms calculate_convex_hull write_results polygon_optimization_algorithms)
 # include for local package
 
 

@@ -2,27 +2,41 @@
 #include "write_results/write_results.hpp"
 #include "polygonization_algorithms/polygonization_convex_hull.hpp"
 #include "polygonization_algorithms/polygonization_incremental.hpp"
-using std::cout;
+#include "calculate_convex_hull/calculate_convex_hull.hpp"
+#include "polygon_optimization_algorithms/simulated_annealing.hpp"
+#include "polygon_optimization_algorithms/local_search.hpp"
+#include <vector>
+
 using std::endl;
+using std::cout;
+using std::vector;
+typedef K::Segment_2 Segment_2;
+
+struct Optimal_change_info{
+    double new_polygon_2_area;
+    Polygon_2 new_polygon_2;
+};
 
 int main(int argc, char** argv){
     char *input_file, *output_file;
     double threshold;
     int L;
+    bool apply_metropolis_criterion;
 
     annealing_method annealing;
     extremum_method extremum_method;
     optimization_algorithm opt_alg;
     polygonization_algorithm greedy_alg;
-    parse_command_line_arguments(argc, argv, &input_file, &output_file, greedy_alg, opt_alg, threshold, annealing, L, extremum_method);
+
+    parse_command_line_arguments(argc, argv, &input_file, &output_file, greedy_alg, opt_alg, threshold, annealing, L, extremum_method, apply_metropolis_criterion);
+
     std::vector<Point_2> points;
     parse_input_file(input_file, points);
-    for(const Point_2& point: points){
-        cout << point << endl;
-    }
-    
-    Polygon_2 initial_polygon_2, opt_polygon_2;
+
     srand(time(NULL));
+
+    Polygon_2 initial_polygon_2;
+
     if(greedy_alg == convex_hull){
         do{
             initial_polygon_2 = polygonization_convex_hull(points);
@@ -30,7 +44,23 @@ int main(int argc, char** argv){
     }else{
         initial_polygon_2 = polygonization_incremental(points);
     }
-    double construction_time;
+
+    Polygon_2 opt_polygon_2;
+
+    clock_t begin = clock();
+    if(opt_alg == local_search){
+        opt_polygon_2 = optimization_local_search(L, threshold, initial_polygon_2, extremum_method);
+    }else{
+        opt_polygon_2 = optimization_simulated_annealing(L, initial_polygon_2, extremum_method, annealing, calculate_convex_hull(points).area(), apply_metropolis_criterion);
+    }
+    clock_t end = clock();
+    double construction_time = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    cout << opt_polygon_2.size() << endl;
+    cout << opt_polygon_2.is_simple() << endl;
+    cout << long(initial_polygon_2.area()) << endl;
+    cout << long(opt_polygon_2.area()) << endl;
+
     write_results_to_output_file(output_file, points, initial_polygon_2, opt_polygon_2, construction_time, opt_alg, extremum_method);
 
     delete input_file;
