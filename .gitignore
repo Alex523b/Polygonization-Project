@@ -3,5 +3,6 @@ Makefile
 CMakeCache.txt
 optimal_polygon
 to_polygon
+evaluate
 *.cmake
 CMakeFiles/
