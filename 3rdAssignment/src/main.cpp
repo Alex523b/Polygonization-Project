@@ -22,37 +22,37 @@ Polygon_2 compute_initial_polygon(vector<Point_2>& points, const polygonization_
 }
 
 int main(int argc, char** argv){
-    char *input_file, *output_file;
+    char *input_directory, *output_file;
     double threshold;
     int L;
-    bool apply_metropolis_criterion;
+    bool apply_preprocessing, apply_metropolis_criterion = true;
 
     annealing_method annealing;
     extremum_method extremum_method;
     optimization_algorithm opt_alg;
     polygonization_algorithm greedy_alg;
 
-    parse_command_line_arguments(argc, argv, &input_file, &output_file, greedy_alg, opt_alg, threshold, annealing, L, extremum_method, apply_metropolis_criterion);
+    parse_command_line_arguments(argc, argv, &input_directory, &output_file, apply_preprocessing);
 
-    std::vector<Point_2> points;
-    parse_input_file(input_file, points);
+    std::vector<vectorFileString> file_set;
+    parse_input_directory(input_directory, file_set);
 
     srand(time(NULL));
 
-    Polygon_2 initial_polygon_2 = compute_initial_polygon(points, greedy_alg), opt_polygon_2;
+    std::cout << "Output file: " << output_file << std::endl;
+    initialize_output_file(output_file);
 
-    clock_t begin = clock();
-    if(opt_alg == local_search){
-        opt_polygon_2 = optimization_local_search(L, threshold, initial_polygon_2, extremum_method);
-    }else{
-        opt_polygon_2 = optimization_simulated_annealing(L, initial_polygon_2, extremum_method, annealing, calculate_convex_hull(points).area(), apply_metropolis_criterion);
+    std::fstream output;
+    output.open(output_file, std::ios::app);
+    std::vector<Point_2> points;
+    for(std::size_t i = 0; i < file_set.size(); i++){
+        parse_input_file(file_set.at(i).fileWithPath, points);
+        std::cout << file_set.at(i).fileWithPath << ' ' << points.size()  << std::endl;
+        points.clear();
     }
-    clock_t end = clock();
-    double construction_time = (double)(end - begin) / CLOCKS_PER_SEC;
+    output.close();
 
-    write_results_to_output_file(output_file, points, initial_polygon_2, opt_polygon_2, construction_time, opt_alg, extremum_method);
-
-    delete input_file;
+    delete input_directory;
     delete output_file;
 
     return 0;

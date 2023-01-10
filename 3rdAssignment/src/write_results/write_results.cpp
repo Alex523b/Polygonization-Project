@@ -4,39 +4,18 @@
 using std::cout;
 using std::endl;
 
-void write_results_to_output_file(const char* output_file, const std::vector<Point_2>& points, const Polygon_2& initial_polygon_2, const Polygon_2& opt_polygon_2, const double& construction_time, const optimization_algorithm& optimization_algorithm, const extremum_method& extremum_method){
+void initialize_output_file(const char* output_file){
     std::fstream output;
-    output.open(output_file, std::ios::out);
-    cout << "Output file: " << output_file << endl;
+    output.open(output_file, std::ios::app);
+    //TODO: format output file
+    output.close();
+}
 
-    output << "Vertices of polygon" << endl;
-    for(const Point_2& vertex: opt_polygon_2.vertices()){
-        output << vertex << endl;
-    }
+void write_results_to_output_file(const char* output_file, const int& polygon_size, const double& min_score, const double& max_score, const double& min_bound, const double& max_bound){
+    std::fstream output;
+    output.open(output_file, std::ios::app);
 
-    output << "Edges of polygon" << endl;
-    for(const Segment_2& edge: opt_polygon_2.edges()){
-        output << edge << endl;
-    }
-
-    output << "algorithm: ";
-    if(optimization_algorithm == local_search){
-        output << "local_search";
-    }else{
-        output << "simulated_annealing";
-    }
-    if(extremum_method == min){
-        output << "_min";
-    }else{
-        output << "_max";
-    }
-    output << endl;
-    double convex_hull_area = calculate_convex_hull(points).area(), opt_area = opt_polygon_2.area(), area_initial = initial_polygon_2.area();
-    output << "area_initial: " << long(area_initial) << endl;
-    output << "area: " << long(opt_area) << endl;
-    output << "ratio_initial: " << area_initial / convex_hull_area << endl;
-    output << "ratio: " << opt_area / convex_hull_area << endl;
-    output << "construction time: " << long(construction_time) << " seconds" << endl;
+    //TODO: format results
 
     output.close();
 }
