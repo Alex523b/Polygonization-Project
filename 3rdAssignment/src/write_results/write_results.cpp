@@ -6,7 +6,7 @@ using std::endl;
 
 void write_results_to_output_file(const char* output_file, const struct report& rep){
     std::fstream output;
-    output.open(output_file, std::ios::out);
+    output.open(output_file, std::ios::app);
     output << "Size: " << rep.point_set_size << endl;
     for(std::size_t k = 0; k < 2; k++){
         if(k == 0){
