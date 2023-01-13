@@ -62,7 +62,7 @@ void update_report_vector(std::vector<struct report>& report_vector, std::size_t
 
 int main(int argc, char** argv){
     char *input_directory, *output_file;
-    double threshold;
+    double threshold = 100000;
     int L;
     bool apply_preprocessing, apply_metropolis_criterion = true;
     clock_t s = clock();
@@ -80,36 +80,46 @@ int main(int argc, char** argv){
 
     std::cout << "Output file: " << output_file << std::endl;
 
+    int L_local_search = 5, L_simulated_annealing_global = 1000, L_simulated_annealing_local = L_simulated_annealing_global;
+    threshold = 100000;
+    if(apply_preprocessing){
+        L_local_search = 2;
+    }
+
     std::vector<Point_2> points;
     std::vector<report> report_vector;
     double min_score, max_score;
-    clock_t start;
+    time_t start;
     for(std::size_t i = 0; i < file_set.size(); i++){
         parse_input_file(file_set.at(i).fileWithPath, points);
+        if(apply_preprocessing){
+            L_simulated_annealing_local = points.size() * 10;
+            threshold = points.size() * 100000;
+        }
         for(std:: size_t k = 0; k < 2; k++){
             for(std::size_t extremum_method_index = 0; extremum_method_index < 2; extremum_method_index++){
-                start = (double) clock();
+                start = time(NULL);
                 Polygon_2 polygon_2 = compute_initial_polygon(points, incremental, start);
 
                 if(k == 0){
-                    polygon_2 = optimization_simulated_annealing(polygon_2.size(), polygon_2, extremum_method_index == 0 ? min : max, global, calculate_convex_hull(points).area(), false, start);
-                    polygon_2 = optimization_simulated_annealing(polygon_2.size() * 10, polygon_2, extremum_method_index == 0 ? min : max, local, calculate_convex_hull(points).area(), false, start);
+                    polygon_2 = optimization_simulated_annealing(L_simulated_annealing_global, polygon_2, extremum_method_index == 0 ? min : max, global, calculate_convex_hull(points).area(), false, start);
+                    if(!polygon_2.is_empty()){
+                        polygon_2 = optimization_simulated_annealing(L_simulated_annealing_local, polygon_2, extremum_method_index == 0 ? min : max, local, calculate_convex_hull(points).area(), false, start);
+                    }
                 }else{
-                    polygon_2 = optimization_simulated_annealing(polygon_2.size(), polygon_2, extremum_method_index == 0 ? min : max, global, calculate_convex_hull(points).area(), false, start);
-                    polygon_2 = optimization_local_search(2, (polygon_2.size() / 2) * 10000, polygon_2, extremum_method_index == 0 ? min : max, start);
+                    polygon_2 = optimization_simulated_annealing(L_simulated_annealing_global, polygon_2, extremum_method_index == 0 ? min : max, global, calculate_convex_hull(points).area(), false, start);
+                    if(!polygon_2.is_empty()){
+                        polygon_2 = optimization_local_search(L_local_search, threshold, polygon_2, extremum_method_index == 0 ? min : max, start);
+                    }
                 }
 
                 if(polygon_2.is_empty()){
+                    std::cout << "test" << std::endl;
                     extremum_method_index == 0 ? min_score = 1 : max_score = 0;
                 }else{
                     extremum_method_index == 0 ? min_score = polygon_2.area() / calculate_convex_hull(points).area() : max_score = polygon_2.area() / calculate_convex_hull(points).area();
                 }
-                clock_t end = (double) clock();
-                double construction_time = (double)(end - start) / CLOCKS_PER_SEC;
-                std::cout << long(construction_time) << std::endl;
             }
-            std::cout << min_score << std::endl;
-            std::cout << max_score << std::endl;
             update_report_vector(report_vector, k, points.size(), min_score, max_score);
 
         }
@@ -117,16 +127,12 @@ int main(int argc, char** argv){
         std::cout << "Finished processing file: " << file_set.at(i).fileWithPath << std::endl;
     }
 
-    using std::cout;
-    using std::endl;
     for(std::size_t i = 0; i < report_vector.size(); i++){
         write_results_to_output_file(output_file, report_vector.at(i));
     }
 
     delete input_directory;
     delete output_file;
-    clock_t end = (double) clock();
-    double construction_time = (double)(end - s) / CLOCKS_PER_SEC;
-    std::cout << construction_time << std::endl;
+
     return 0;
 }

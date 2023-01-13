@@ -24,7 +24,8 @@ Replaceable_edge find_closest_visible_point_to_edge(std::vector<Point_2>& inside
     return replaceable_edge;
 }
 
-Polygon_2 polygonization_convex_hull(std::vector<Point_2>& points, clock_t start){
+Polygon_2 polygonization_convex_hull(std::vector<Point_2>& points, time_t start){
+    time_t now;
     Polygon_2 polygon_2 = calculate_convex_hull(points);// The initial polygon matches the convex hull
     std::vector<Point_2> inside_points;
     for(const Point_2& point: points){
@@ -35,7 +36,7 @@ Polygon_2 polygonization_convex_hull(std::vector<Point_2>& points, clock_t start
 
     int counter_edge;
     Replaceable_edge potential_replaceable_edge;
-    while(!inside_points.empty() && (((double) clock() - start)/CLOCKS_PER_SEC) < 0.5 * points.size()){
+    while(!inside_points.empty() && difftime(now = time(NULL),start) < 0.5 * points.size()){
         std::vector<Replaceable_edge> replaceable_edges_of_polygon;
 
         counter_edge = 0;

@@ -74,11 +74,12 @@ int find_optimal_change(vector<Optimal_change_info> T, extremum_method extremum_
     return optimal_change_index;
 }
 
-Polygon_2 optimization_local_search(const int& L, const double& threshold, const Polygon_2& initial_polygon_2, const extremum_method& extremum_method, clock_t start){
+Polygon_2 optimization_local_search(const int& L, const double& threshold, const Polygon_2& initial_polygon_2, const extremum_method& extremum_method, time_t start){
+    time_t now;
     Polygon_2 optimized_polygon_2 = initial_polygon_2;
     std::size_t optimized_polygon_2_size = optimized_polygon_2.size();
     double optimized_polygon_2_area, area_difference = threshold;
-    while(area_difference >= threshold && (((double) clock() - start)/CLOCKS_PER_SEC) < 0.5 * optimized_polygon_2_size){
+    while(area_difference >= threshold && difftime(now = time(NULL),start) < 0.5 * optimized_polygon_2_size){
         area_difference = 0;
 
         optimized_polygon_2_area = optimized_polygon_2.area();
@@ -106,7 +107,7 @@ Polygon_2 optimization_local_search(const int& L, const double& threshold, const
         }
     }
 
-    if(area_difference >= threshold){
+    if(difftime(now = time(NULL),start) >= 0.5 * optimized_polygon_2_size){
         optimized_polygon_2.clear();
     }
 

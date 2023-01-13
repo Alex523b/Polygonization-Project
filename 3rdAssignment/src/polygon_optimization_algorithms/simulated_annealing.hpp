@@ -1,2 +1,2 @@
 #include "../parsing_input/parsing_input.hpp"
-Polygon_2 optimization_simulated_annealing(const int& L, const Polygon_2& initial_polygon_2, const extremum_method& extremum_method, const annealing_method& annealing_method, const double& convex_hull_area, const bool& apply_metropolis_criterion, clock_t start);
+Polygon_2 optimization_simulated_annealing(const int& L, const Polygon_2& initial_polygon_2, const extremum_method& extremum_method, const annealing_method& annealing_method, const double& convex_hull_area, const bool& apply_metropolis_criterion, time_t start);

@@ -80,7 +80,8 @@ std::vector<Replaceable_edge> find_red_edges(const Polygon_2& convex_hull, Point
     return red_edges;
 }
 
-Polygon_2 polygonization_incremental(std::vector<Point_2>& points, clock_t start){
+Polygon_2 polygonization_incremental(std::vector<Point_2>& points, time_t start){
+    time_t now;
     sort_point_set(points, x_descending);
     Polygon_2 polygon_2;
     std::vector<Point_2> polygon_2_points;
@@ -94,7 +95,7 @@ Polygon_2 polygonization_incremental(std::vector<Point_2>& points, clock_t start
         return polygon_2;
     }
 
-    for(std::size_t i = 3; i < points.size() && (((double) clock() - start)/CLOCKS_PER_SEC) < 0.5 * points.size(); i++){
+    for(std::size_t i = 3; i < points.size() && difftime(now = time(NULL),start) < 0.5 * points.size(); i++){
         Polygon_2 convex_hull = calculate_convex_hull(polygon_2_points);
         std::vector<Replaceable_edge> red_edges = find_red_edges(convex_hull, points.at(i));
 
