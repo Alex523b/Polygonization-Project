@@ -120,7 +120,6 @@ int main(int argc, char** argv){
                 }
             }
             update_report_vector(report_vector, k, points.size(), min_score, max_score);
-
         }
         points.clear();
         std::cout << "Finished processing file: " << file_set.at(i).fileWithPath << std::endl;

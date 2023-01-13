@@ -76,7 +76,7 @@ Polygon_2 optimization_simulated_annealing(const int& L, const Polygon_2& initia
         temperature -= 1.0/L;
     }
 
-    if(difftime(now = time(NULL),start) >= 0.5 * optimized_polygon_2.size()){
+    if(difftime(now = time(NULL), start) >= 0.5 * optimized_polygon_2.size()){
         optimized_polygon_2.clear();
     }
 
