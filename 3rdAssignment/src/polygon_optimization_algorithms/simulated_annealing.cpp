@@ -33,13 +33,12 @@ void local_annealing(Polygon_2& tmp_polygon_2){
     swap(tmp_polygon_2.container().at(vertex_index), tmp_polygon_2.container().at((vertex_index + 1) % tmp_polygon_2.size()));
 }
 
-Polygon_2 optimization_simulated_annealing(const int& L, const Polygon_2& initial_polygon_2, const extremum_method& extremum_method, const annealing_method& annealing_method, const double& convex_hull_area, const bool& apply_metropolis_criterion){
+Polygon_2 optimization_simulated_annealing(const int& L, const Polygon_2& initial_polygon_2, const extremum_method& extremum_method, const annealing_method& annealing_method, const double& convex_hull_area, const bool& apply_metropolis_criterion, clock_t start){
     Polygon_2 optimized_polygon_2 = initial_polygon_2, tmp_polygon_2;
 
     double temperature = 1.0, energy, previous_energy;
     energy = (previous_energy = calculate_energy(optimized_polygon_2.area(), convex_hull_area, optimized_polygon_2.size(), extremum_method));
-    while(temperature > 0){
-        std::cout << "temperature = " << temperature << std::endl;
+    while(temperature > 0 && (((double) clock()/CLOCKS_PER_SEC) - start) < 0.5 * optimized_polygon_2.size()){
         tmp_polygon_2 = optimized_polygon_2;
 
         if(annealing_method == local){ // apply annealing method
@@ -75,5 +74,10 @@ Polygon_2 optimization_simulated_annealing(const int& L, const Polygon_2& initia
 
         temperature -= 1.0/L;
     }
+
+    if(temperature > 0){
+        optimized_polygon_2.clear();
+    }
+
     return optimized_polygon_2;
 }

@@ -64,7 +64,6 @@ void parse_input_file(const char *file_name, std::vector<Point_2>& points){
     input_file.close();
 }
 
-
 void parse_input_directory(const char * const TARGET_DIRECTORY, vector<struct vectorFileString> &vec){
     DIR* dirPtr;
     struct dirent *direntPtr;

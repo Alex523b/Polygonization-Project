@@ -74,10 +74,11 @@ int find_optimal_change(vector<Optimal_change_info> T, extremum_method extremum_
     return optimal_change_index;
 }
 
-Polygon_2 optimization_local_search(const int& L, const double& threshold, const Polygon_2& initial_polygon_2, const extremum_method& extremum_method){
+Polygon_2 optimization_local_search(const int& L, const double& threshold, const Polygon_2& initial_polygon_2, const extremum_method& extremum_method, clock_t start){
     Polygon_2 optimized_polygon_2 = initial_polygon_2;
-    double optimized_polygon_2_area, area_difference;
-    do{
+    std::size_t optimized_polygon_2_size = optimized_polygon_2.size();
+    double optimized_polygon_2_area, area_difference = threshold;
+    while(area_difference >= threshold && (((double) clock() - start)/CLOCKS_PER_SEC) < 0.5 * optimized_polygon_2_size){
         area_difference = 0;
 
         optimized_polygon_2_area = optimized_polygon_2.area();
@@ -86,7 +87,7 @@ Polygon_2 optimization_local_search(const int& L, const double& threshold, const
 
         for(const Segment_2& edge: optimized_polygon_2.edges()){
             for(int current_path_length = 1; current_path_length <= L; current_path_length++){
-                for(std::size_t i = 0; i < optimized_polygon_2.size(); i++){
+                for(std::size_t i = 0; i < optimized_polygon_2_size; i++){
                     vector<Point_2> path = add_vertices_to_path(i, current_path_length, optimized_polygon_2, edge);
 
                     if(path.size() == current_path_length){
@@ -103,9 +104,11 @@ Polygon_2 optimization_local_search(const int& L, const double& threshold, const
             optimized_polygon_2 = T.at(optimal_change_index).new_polygon_2;
             area_difference = fabs(optimized_polygon_2.area() - optimized_polygon_2_area);
         }
+    }
 
-        std::cout << "area difference = " << area_difference << std::endl;
-    }while(area_difference >= threshold);
+    if(area_difference >= threshold){
+        optimized_polygon_2.clear();
+    }
 
     return optimized_polygon_2;
 }

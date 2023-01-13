@@ -1,6 +1,10 @@
 #include "../calculate_convex_hull/calculate_convex_hull.hpp"
 #include "polygonization_incremental.hpp"
 #include "../structs/Replaceable_edge.hpp"
+#include <iostream>
+#include <chrono>
+#include <unistd.h>
+
 bool check_for_duplicate_edge(const std::vector<Replaceable_edge> replaceable_edges_of_polygon, const Segment_2& edge){
     bool duplicate_edge = false;
     for(std::size_t l = 0; l < replaceable_edges_of_polygon.size(); l++){
@@ -76,7 +80,7 @@ std::vector<Replaceable_edge> find_red_edges(const Polygon_2& convex_hull, Point
     return red_edges;
 }
 
-Polygon_2 polygonization_incremental(std::vector<Point_2>& points){
+Polygon_2 polygonization_incremental(std::vector<Point_2>& points, clock_t start){
     sort_point_set(points, x_descending);
     Polygon_2 polygon_2;
     std::vector<Point_2> polygon_2_points;
@@ -90,7 +94,7 @@ Polygon_2 polygonization_incremental(std::vector<Point_2>& points){
         return polygon_2;
     }
 
-    for(std::size_t i = 3; i < points.size(); i++){
+    for(std::size_t i = 3; i < points.size() && (((double) clock() - start)/CLOCKS_PER_SEC) < 0.5 * points.size(); i++){
         Polygon_2 convex_hull = calculate_convex_hull(polygon_2_points);
         std::vector<Replaceable_edge> red_edges = find_red_edges(convex_hull, points.at(i));
 
@@ -135,13 +139,14 @@ Polygon_2 polygonization_incremental(std::vector<Point_2>& points){
         std::size_t edge_index = rand() % replaceable_edges_of_polygon.size();
         polygon_2.insert(polygon_2.begin() + replaceable_edges_of_polygon.at(edge_index).polygon_edge_index, points.at(i)); // Add point to polygon
         polygon_2_points.push_back(points.at(i));
-
-        if(polygon_2.size() % 1000 == 0){ // Print polygon size per 1000 polygon points
-            std::cout << polygon_2.size() << std::endl;
-        }
     }
     if(polygon_2.orientation() == CGAL::CLOCKWISE){ // The signed area of a polygon in CW order is negative; thus, reverse its orientation
         polygon_2.reverse_orientation();
     }
+
+    if(polygon_2.size() != points.size()){
+        polygon_2.clear();
+    }
+
     return polygon_2;
 }
