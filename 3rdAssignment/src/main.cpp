@@ -65,7 +65,7 @@ int main(int argc, char** argv){
     double threshold = 100000;
     int L;
     bool apply_preprocessing, apply_metropolis_criterion = true;
-    clock_t s = clock();
+
     annealing_method annealing;
     extremum_method extremum_method;
     optimization_algorithm opt_alg;
@@ -114,7 +114,6 @@ int main(int argc, char** argv){
                 }
 
                 if(polygon_2.is_empty()){
-                    std::cout << "test" << std::endl;
                     extremum_method_index == 0 ? min_score = 1 : max_score = 0;
                 }else{
                     extremum_method_index == 0 ? min_score = polygon_2.area() / calculate_convex_hull(points).area() : max_score = polygon_2.area() / calculate_convex_hull(points).area();
