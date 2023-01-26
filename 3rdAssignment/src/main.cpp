@@ -77,7 +77,7 @@ int main(int argc, char** argv){
     parse_input_directory(input_directory, file_set);
 
     srand(time(NULL));
-
+    initialize_output_file(output_file);
     std::cout << "Output file: " << output_file << std::endl;
 
     int L_local_search = 5, L_simulated_annealing_global = 1000, L_simulated_annealing_local = L_simulated_annealing_global;

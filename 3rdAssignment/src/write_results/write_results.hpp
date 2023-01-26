@@ -17,3 +17,4 @@ struct report{
 };
 #endif
 void write_results_to_output_file(const char* output_file, const struct report& rep);
+void initialize_output_file(const char* output_file);
